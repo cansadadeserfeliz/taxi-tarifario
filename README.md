@@ -1,3 +1,3 @@
 # Taxi tarifario
 
-URL: http://blog.vero4ka.info/taxi-tarifario/
+URL: http://ctrl-alt-delete.github.io/repository/taxi-tarifario/
