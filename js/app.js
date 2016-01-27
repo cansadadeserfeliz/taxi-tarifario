@@ -3,7 +3,9 @@
   
   app.controller('RateCalculatorController', [ '$http', function($http){
     var rateCtrl = this;
-    rateCtrl.result = {};
+    rateCtrl.result = {
+      has_route: false
+    };
     rateCtrl.neighborhoods = []
     
     //$http.get('locations.json').success(function(data){
@@ -12,7 +14,7 @@
     
     rateCtrl.beach = {
       "id": 0,
-      "name": "Beach",
+      "name": "Playa",
     }
     rateCtrl.neighborhoods = [
       {
@@ -54,13 +56,13 @@
       {
         "id": 1,
         "name": "Bogota",
-        "price_unit": 72,
+        "price_per_unit": 72,
         "price_beach": 17000,
         "country_id": 1
       }, {
         "id": 2,
         "name": "Moscow",
-        "price_unit": 4,
+        "price_per_unit": 4,
         "price_beach": 2500,
         "country_id": 2
       }
@@ -77,6 +79,15 @@
         "currency": "RUB"
       }
     ];
+    
+    rateCtrl.rates = {
+      1: {2: 230, 3: 12, 4: 400, 5: 380},
+      2: {3: 170, 4: 150, 5: 140},
+      3: {4: 360, 5: 170},
+      4: {5: 12},
+      6: {7: 230, 8: 120},
+      7: {8: 175}
+    };
     
     this.getNeighborhood = function(id) {
       return _.find(
@@ -98,27 +109,35 @@
         function(country){ return country.id == id; }
       );
     };
-    
+        
     this.getPrice = function(form) {
       if (form.origin.$invalid && form.destination.$invalid) {
         return;
       }
       var price = 0;
-      var towards_beach = false;
+      rateCtrl.result = {
+        towards_beach: false,
+        price: 0,
+        has_route: true,
+        no_route_message: 'No hay ruta encontrada.'
+      };
+      
       if (rateCtrl.destination == rateCtrl.beach.id) {
-        towards_beach = true;
+        rateCtrl.result.towards_beach = true;
       }
+      
+      // Get origin info
       var origin_neighborhood = rateCtrl.getNeighborhood(rateCtrl.origin);
       var origin_city = rateCtrl.getCity(origin_neighborhood.city_id);
       var country = rateCtrl.getCountry(origin_city.country_id);
-      
       var origin_name = [
         origin_neighborhood.name,
         origin_city.name,
         country.name,
       ].join(', ');
       
-      if (!towards_beach) {
+     if (!rateCtrl.result.towards_beach) {
+        // Get destonation info
         var destination_neighborhood = rateCtrl.getNeighborhood(rateCtrl.destination);
         var destination_city = rateCtrl.getCity(destination_neighborhood.city_id);
       
@@ -128,17 +147,31 @@
           country.name,
         ].join(', ');
         
-        // TODO: check if origin country id and destination country id are equal
+        // Check if origin city and destination city are equal
+        if (origin_neighborhood.city_id != destination_neighborhood.city_id) {
+          rateCtrl.result.has_route = false;
+          rateCtrl.result.no_route_message = 'No se puede tomar taxi entre ciudades diferentes'
+        } else {
+          // Get units between origin and destination neighborhoods
+          var units = 0;
+          if (rateCtrl.origin in rateCtrl.rates && rateCtrl.destination in rateCtrl.rates[rateCtrl.origin]) {
+            units = rateCtrl.rates[rateCtrl.origin][rateCtrl.destination];
+          } else if (rateCtrl.destination in rateCtrl.rates && rateCtrl.origin in rateCtrl.rates[rateCtrl.destination]) {
+            units = rateCtrl.rates[rateCtrl.destination][rateCtrl.origin];
+          } else {
+            rateCtrl.result.has_route = false;
+          }
+          price = origin_city.price_per_unit * units;
+        }
       } else {
+        // Get price to the beach
         var destination_name = rateCtrl.beach.name;
         price = origin_city.price_beach;
       }
       
-      rateCtrl.result = {
-        origin: origin_name,
-        destination: destination_name,
-        price: price + ' ' + country.currency
-      }
+      rateCtrl.result.origin = origin_name;
+      rateCtrl.result.destination = destination_name;
+      rateCtrl.result.price = price + ' ' + country.currency;
     };
     
     this.clearForm = function() {

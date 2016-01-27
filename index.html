@@ -56,10 +56,14 @@
             <button class="btn btn-sm btn-default" ng-click="rateCtrl.clearForm()"><span class="glyphicon glyphicon-erase" aria-hidden="true"></span></button>
           </div>
         </div>
-        <div class="alert alert-success" role="alert" ng-show="rateForm.$valid">
+        <div class="alert alert-success" role="alert" ng-show="rateForm.$valid && rateCtrl.result.has_route">
           Precio desde <strong>{{ rateCtrl.result.origin }}</strong>
           hasta <strong>{{ rateCtrl.result.destination }}</strong>
           es <strong>{{ rateCtrl.result.price }}</strong>
+        </div>
+        <div class="alert alert-danger" role="alert" ng-hide="rateForm.$invalid || rateCtrl.result.has_route">
+          <strong>{{ rateCtrl.result.no_route_message }}</strong>
+          desde {{ rateCtrl.result.origin }} hasta {{ rateCtrl.result.destination }}
         </div>
       </form>
     </div>
