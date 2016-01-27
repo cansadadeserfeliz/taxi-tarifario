@@ -9,6 +9,9 @@
   <!-- Angular.js Libraries -->
   <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
   
+  <!-- Underscore.js Libraries -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+  
   <script type="text/javascript" src="js/app.js"></script>
 </head>
 
@@ -19,7 +22,7 @@
     </div>
     
     <div class="jumbotron">
-      <form name="rateForm" class="form-horizontal" ng-controller="RateCalculatorController as rateCtrl" ng-submit="rateForm.$valid && rateCtrl.getPrice()" novalidate>
+      <form name="rateForm" class="form-horizontal" ng-controller="RateCalculatorController as rateCtrl" ng-submit="rateForm.$valid && rateCtrl.getPrice(rateForm)" novalidate>
         <div class="form-group">
           <label class="col-sm-1" for="inputOrigin">Inicio</label>
           <div class="col-sm-5">
@@ -45,13 +48,14 @@
         </div>
         <div class="form-group">
           <div class="col-sm-6">
-            <button type="submit" class="btn btn-sm btn-success" ng-disabled="rateForm.$invalid">Add (is valid: {{ rateForm.$valid }})</button>
+            <button type="submit" class="btn btn-sm btn-success" ng-disabled="rateForm.$invalid">Calcular precio</button>
             <button class="btn btn-sm btn-default" ng-click="rateCtrl.clearForm()"><span class="glyphicon glyphicon-erase" aria-hidden="true"></span></button>
           </div>
         </div>
-        <div class="alert alert-success" role="alert" ng-show="rateCtrl.price">
-          <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          Precio desde {{ rateCtrl.origin }} hasta {{ rateCtrl.destination }} es <strong>{{ rateCtrl.price }}</strong>
+        <div class="alert alert-success" role="alert" ng-show="rateForm.$valid">
+          Precio desde <strong>{{ rateCtrl.result.origin }}</strong> 
+          hasta <strong>{{ rateCtrl.result.destination }}</strong> 
+          es <strong>{{ rateCtrl.result.price }}</strong>
         </div>
       </form>
     </div>

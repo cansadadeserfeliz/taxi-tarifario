@@ -3,7 +3,7 @@
   
   app.controller('RateCalculatorController', [ '$http', function($http){
     var rateCtrl = this;
-    rateCtrl.price = 0;
+    rateCtrl.result = {};
     rateCtrl.neighborhoods = []
     
     //$http.get('locations.json').success(function(data){
@@ -12,30 +12,118 @@
     
     rateCtrl.neighborhoods = [
       {
+        "id": 1,
         "name": "Barrancas",
-        "id": 1
+        "city_id": 1
       }, {
+        "id": 2,
         "name": "Chico",
-        "id": 2
+        "city_id": 1
       }, {
+        "id": 3,
         "name": "San Cristobal",
-        "id": 3
+        "city_id": 1
       }, {
+        "id": 4,
         "name": "Mandalay",
-        "id": 4
+        "city_id": 1
       }, {
+        "id": 5,
         "name": "Kennedy",
-        "id": 5
+        "city_id": 1
+      }, {
+        "id": 6,
+        "name": "Butovo",
+        "city_id": 2
+      }, {
+        "id": 7,
+        "name": "Sokolniki",
+        "city_id": 2
+      }, {
+        "id": 8,
+        "name": "Konkovo",
+        "city_id": 2
       }
     ];
     
-    this.getPrice = function() {
-      this.price = 200;
+    rateCtrl.cities = [
+      {
+        "id": 1,
+        "name": "Bogota",
+        "country_id": 1
+      }, {
+        "id": 2,
+        "name": "Moscow",
+        "country_id": 2
+      }
+    ];
+    
+    rateCtrl.countries = [
+      {
+        "id": 1,
+        "name": "Colombia",
+        "currency": "COP"
+      }, {
+        "id": 2,
+        "name": "Russia",
+        "currency": "RUB"
+      }
+    ];
+    
+    this.getNeighborhood = function(id) {
+      return _.find(
+        rateCtrl.neighborhoods, 
+        function(neighborhood){ return neighborhood.id == id; }
+      );
+    };
+    
+    this.getCity = function(id) {
+      return _.find(
+        rateCtrl.cities, 
+        function(city){ return city.id == id; }
+      );
+    };
+    
+    this.getCountry = function(id) {
+      return _.find(
+        rateCtrl.countries, 
+        function(country){ return country.id == id; }
+      );
+    };
+    
+    this.getPrice = function(form) {
+      if (form.origin.$invalid && form.destination.$invalid) {
+        return;
+      }
+      var origin_neighborhood = rateCtrl.getNeighborhood(rateCtrl.origin);
+      var destination_neighborhood = rateCtrl.getNeighborhood(rateCtrl.destination);
+      
+      var origin_city = rateCtrl.getCity(origin_neighborhood.city_id);
+      var destination_city = rateCtrl.getCity(destination_neighborhood.city_id);
+      
+      // TODO: check if origin country id and destination country id are equal
+      
+      var country = rateCtrl.getCountry(origin_city.country_id);
+      
+      rateCtrl.result = {
+        origin: [
+          origin_neighborhood.name,
+          origin_city.name,
+          country.name,
+        ].join(', '),
+        destination: [
+          destination_neighborhood.name,
+          destination_city.name,
+          country.name,
+        ].join(', '),
+        price: 100 + ' ' + country.currency,
+      }
     };
     
     this.clearForm = function() {
-      this.origin = '';
-      this.destination = '';
+      rateCtrl.origin = '';
+      rateCtrl.destination = '';
+      rateCtrl.result = {};
     }
   } ]);
   
