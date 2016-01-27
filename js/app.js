@@ -111,7 +111,8 @@
     };
         
     this.getPrice = function(form) {
-      if (form.origin.$invalid && form.destination.$invalid) {
+      console.log(form);
+      if (form.$invalid) {
         return;
       }
       var price = 0;

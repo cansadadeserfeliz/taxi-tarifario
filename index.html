@@ -27,7 +27,7 @@
         <div class="form-group">
           <label class="col-sm-1" for="inputOrigin">Inicio</label>
           <div class="col-sm-5">
-            <select name="origin" ng-model="rateCtrl.origin" class="form-control" id="inputOrigin" required>
+            <select name="origin" ng-model="rateCtrl.origin" class="form-control" id="inputOrigin" ng-change="rateCtrl.getPrice(rateForm)" required>
               <option ng-repeat="neighborhood in rateCtrl.neighborhoods" value="{{ neighborhood.id }}">
                 {{ neighborhood.name }}
               </option>
@@ -37,7 +37,7 @@
         <div class="form-group">
           <label class="col-sm-1" for="inputDestination">Destino</label>
           <div class="col-sm-5">
-            <select name="destination" ng-model="rateCtrl.destination" class="form-control" id="inputDestination" equals-to-origin="{{ rateCtrl.origin }}" required>
+            <select name="destination" ng-model="rateCtrl.destination" class="form-control" id="inputDestination" equals-to-origin="{{ rateCtrl.origin }}" ng-change="rateCtrl.getPrice(rateForm)" required>
               <option value="{{ rateCtrl.beach.id }}">
                 {{ rateCtrl.beach.name }}
               </option>
