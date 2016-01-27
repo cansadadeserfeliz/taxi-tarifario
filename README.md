@@ -1,3 +1,3 @@
 # Taxi tarifario
 
-URL: http://ctrl-alt-delete.github.io/taxi-tarifario/
+URL: http://vero4karu.github.io/taxi-tarifario/
