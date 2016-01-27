@@ -19,6 +19,7 @@
 <body ng-app="tarifario">
   <div class="container">
     <div class="header clearfix">
+      <a class="pull-right" href="https://github.com/vero4karu/taxi-tarifario" target="_blank"><i class="fa fa-github"> Ver en github</i></a>
       <h3 class="text-muted"><i class="fa fa-taxi"></i> Taxi Tarifario</h3>
     </div>
     
@@ -52,14 +53,17 @@
         </div>
         <div class="form-group">
           <div class="col-sm-6">
-            <button type="submit" class="btn btn-sm btn-success" ng-disabled="rateForm.$invalid">Calcular precio</button>
+            <!--button type="submit" class="btn btn-sm btn-success" ng-disabled="rateForm.$invalid">Calcular precio</button-->
             <button class="btn btn-sm btn-default" ng-click="rateCtrl.clearForm()"><span class="glyphicon glyphicon-erase" aria-hidden="true"></span></button>
           </div>
         </div>
         <div class="alert alert-success" role="alert" ng-show="rateForm.$valid && rateCtrl.result.has_route">
           Precio desde <strong>{{ rateCtrl.result.origin }}</strong>
           hasta <strong>{{ rateCtrl.result.destination }}</strong>
-          es <strong>{{ rateCtrl.result.price }}</strong>
+          es <strong>{{ rateCtrl.result.price }} {{ rateCtrl.result.currency }}</strong>.
+          <span ng-show="rateCtrl.price_per_unit">
+            Precio por unidad: {{ rateCtrl.price_per_unit }} {{ rateCtrl.result.currency }}
+          </span>
         </div>
         <div class="alert alert-danger" role="alert" ng-hide="rateForm.$invalid || rateCtrl.result.has_route">
           <strong>{{ rateCtrl.result.no_route_message }}</strong>

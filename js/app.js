@@ -8,9 +8,11 @@
     };
     rateCtrl.neighborhoods = []
     
-    
     $http.get('data/neighborhoods.json').success(function(data){
       rateCtrl.neighborhoods = data;
+    });
+    $http.get('data/areas.json').success(function(data){
+      rateCtrl.areas = data;
     });
     $http.get('data/cities.json').success(function(data){
       rateCtrl.cities = data;
@@ -27,24 +29,10 @@
       "name": "Playa",
     }
     
-    this.getNeighborhood = function(id) {
+    this.getLocation = function(locations, id) {
       return _.find(
-        rateCtrl.neighborhoods, 
-        function(neighborhood){ return neighborhood.id == id; }
-      );
-    };
-    
-    this.getCity = function(id) {
-      return _.find(
-        rateCtrl.cities, 
-        function(city){ return city.id == id; }
-      );
-    };
-    
-    this.getCountry = function(id) {
-      return _.find(
-        rateCtrl.countries, 
-        function(country){ return country.id == id; }
+        locations, 
+        function(location){ return location.id == id; }
       );
     };
         
@@ -65,24 +53,29 @@
       }
       
       // Get origin info
-      var origin_neighborhood = rateCtrl.getNeighborhood(rateCtrl.origin);
-      var origin_city = rateCtrl.getCity(origin_neighborhood.city_id);
-      var country = rateCtrl.getCountry(origin_city.country_id);
+      var origin_neighborhood = rateCtrl.getLocation(rateCtrl.neighborhoods, rateCtrl.origin);
+      var origin_area = rateCtrl.getLocation(rateCtrl.areas, origin_neighborhood.area_id);
+      var origin_city = rateCtrl.getLocation(rateCtrl.cities, origin_area.city_id);
+      var origin_country = rateCtrl.getLocation(rateCtrl.countries, origin_city.country_id);
       var origin_name = [
         origin_neighborhood.name,
+        origin_area.name,
         origin_city.name,
-        country.name,
+        origin_country.name,
       ].join(', ');
       
      if (!rateCtrl.result.towards_beach) {
         // Get destonation info
-        var destination_neighborhood = rateCtrl.getNeighborhood(rateCtrl.destination);
-        var destination_city = rateCtrl.getCity(destination_neighborhood.city_id);
+        var destination_neighborhood = rateCtrl.getLocation(rateCtrl.neighborhoods, rateCtrl.destination);
+        var destination_area = rateCtrl.getLocation(rateCtrl.areas, destination_neighborhood.area_id);
+        var destination_city = rateCtrl.getLocation(rateCtrl.cities, destination_area.city_id);
+        var destination_country = rateCtrl.getLocation(rateCtrl.countries, destination_city.country_id);
       
         var destination_name = [
           destination_neighborhood.name,
+          destination_area.name,
           destination_city.name,
-          country.name,
+          destination_country.name,
         ].join(', ');
         
         // Check if origin city and destination city are equal
@@ -100,6 +93,7 @@
             rateCtrl.result.has_route = false;
           }
           price = origin_city.price_per_unit * units;
+          rateCtrl.price_per_unit = origin_city.price_per_unit;
         }
       } else {
         // Get price to the beach
@@ -109,7 +103,8 @@
       
       rateCtrl.result.origin = origin_name;
       rateCtrl.result.destination = destination_name;
-      rateCtrl.result.price = price + ' ' + country.currency;
+      rateCtrl.result.price = price;
+      rateCtrl.result.currency = origin_country.currency;
     };
     
     this.clearForm = function() {

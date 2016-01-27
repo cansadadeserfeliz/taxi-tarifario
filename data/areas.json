@@ -1,0 +1,19 @@
+[
+  {
+    "id": 1,
+    "name": "Norte",
+    "city_id": 1
+  }, {
+    "id": 2,
+    "name": "Kennedy",
+    "city_id": 1
+  }, {
+    "id": 3,
+    "name": "UZAO",
+    "city_id": 2
+  }, {
+    "id": 4,
+    "name": "SAO",
+    "city_id": 2
+  }
+]
