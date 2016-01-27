@@ -5,7 +5,9 @@
   
   <title>Tarifario</title>
   
-  <script type="text/javascript" src="http://code.angularjs.org/1.3.14/angular.js"></script>
+  <!-- Angular.js Libraries -->
+  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+  
   <script type="text/javascript" src="js/app.js"></script>
 </head>
 
@@ -20,13 +22,21 @@
         <div class="form-group">
           <label class="col-sm-1" for="inputOrigin">Inicio</label>
           <div class="col-sm-5">
-            <input type="text" ng-model="rateCtrl.origin" class="form-control" id="inputOrigin" placeholder="Barrancas" required>
+            <select ng-model="rateCtrl.origin" class="form-control" id="inputOrigin" required>
+              <option ng-repeat="neighborhood in rateCtrl.neighborhoods" value="{{ neighborhood.id }}">
+                {{ neighborhood.name }}
+              </option>
+            </select>
           </div>
         </div>
         <div class="form-group">
           <label class="col-sm-1" for="inputDestination">Destino</label>
           <div class="col-sm-5">
-            <input type="text" ng-model="rateCtrl.destination" class="form-control" id="inputDestination" placeholder="Chico" required>
+            <select ng-model="rateCtrl.destination" class="form-control" id="inputDestination" required>
+              <option ng-repeat="neighborhood in rateCtrl.neighborhoods" value="{{ neighborhood.id }}">
+                {{ neighborhood.name }}
+              </option>
+            </select>
           </div>
         </div>
         <div class="form-group">
