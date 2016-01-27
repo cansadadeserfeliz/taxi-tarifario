@@ -10,6 +10,10 @@
     //  rateCtrl.neighborhoods = data;
     //});
     
+    rateCtrl.beach = {
+      "id": 0,
+      "name": "Beach",
+    }
     rateCtrl.neighborhoods = [
       {
         "id": 1,
@@ -50,10 +54,14 @@
       {
         "id": 1,
         "name": "Bogota",
+        "price_unit": 72,
+        "price_beach": 17000,
         "country_id": 1
       }, {
         "id": 2,
         "name": "Moscow",
+        "price_unit": 4,
+        "price_beach": 2500,
         "country_id": 2
       }
     ];
@@ -95,28 +103,41 @@
       if (form.origin.$invalid && form.destination.$invalid) {
         return;
       }
+      var price = 0;
+      var towards_beach = false;
+      if (rateCtrl.destination == rateCtrl.beach.id) {
+        towards_beach = true;
+      }
       var origin_neighborhood = rateCtrl.getNeighborhood(rateCtrl.origin);
-      var destination_neighborhood = rateCtrl.getNeighborhood(rateCtrl.destination);
-      
       var origin_city = rateCtrl.getCity(origin_neighborhood.city_id);
-      var destination_city = rateCtrl.getCity(destination_neighborhood.city_id);
-      
-      // TODO: check if origin country id and destination country id are equal
-      
       var country = rateCtrl.getCountry(origin_city.country_id);
       
-      rateCtrl.result = {
-        origin: [
-          origin_neighborhood.name,
-          origin_city.name,
-          country.name,
-        ].join(', '),
-        destination: [
+      var origin_name = [
+        origin_neighborhood.name,
+        origin_city.name,
+        country.name,
+      ].join(', ');
+      
+      if (!towards_beach) {
+        var destination_neighborhood = rateCtrl.getNeighborhood(rateCtrl.destination);
+        var destination_city = rateCtrl.getCity(destination_neighborhood.city_id);
+      
+        var destination_name = [
           destination_neighborhood.name,
           destination_city.name,
           country.name,
-        ].join(', '),
-        price: 100 + ' ' + country.currency,
+        ].join(', ');
+        
+        // TODO: check if origin country id and destination country id are equal
+      } else {
+        var destination_name = rateCtrl.beach.name;
+        price = origin_city.price_beach;
+      }
+      
+      rateCtrl.result = {
+        origin: origin_name,
+        destination: destination_name,
+        price: price + ' ' + country.currency
       }
     };
     

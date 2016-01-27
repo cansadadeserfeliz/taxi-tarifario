@@ -2,6 +2,7 @@
 <html>
 <head>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"> 
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha256-3dkvEK0WLHRJ7/Csr0BZjAWxERc5WH7bdeUya2aXxdU= sha512-+L4yy6FRcDGbXJ9mPG8MT/3UCDzwR9gPeyFNMCtInsol++5m3bk2bXWKdZjvybmohrAsn3Ua5x8gfLnbE1YkOg==" crossorigin="anonymous">
   <link rel="stylesheet" href="css/main.css"> 
   
   <title>Tarifario</title>
@@ -18,7 +19,7 @@
 <body ng-app="tarifario">
   <div class="container">
     <div class="header clearfix">
-      <h3 class="text-muted">Taxi Tarifario</h3>
+      <h3 class="text-muted"><i class="fa fa-taxi"></i> Taxi Tarifario</h3>
     </div>
     
     <div class="jumbotron">
@@ -37,6 +38,9 @@
           <label class="col-sm-1" for="inputDestination">Destino</label>
           <div class="col-sm-5">
             <select name="destination" ng-model="rateCtrl.destination" class="form-control" id="inputDestination" equals-to-origin="{{ rateCtrl.origin }}" required>
+              <option value="{{ rateCtrl.beach.id }}">
+                {{ rateCtrl.beach.name }}
+              </option>
               <option ng-repeat="neighborhood in rateCtrl.neighborhoods" value="{{ neighborhood.id }}">
                 {{ neighborhood.name }}
               </option>
@@ -53,8 +57,8 @@
           </div>
         </div>
         <div class="alert alert-success" role="alert" ng-show="rateForm.$valid">
-          Precio desde <strong>{{ rateCtrl.result.origin }}</strong> 
-          hasta <strong>{{ rateCtrl.result.destination }}</strong> 
+          Precio desde <strong>{{ rateCtrl.result.origin }}</strong>
+          hasta <strong>{{ rateCtrl.result.destination }}</strong>
           es <strong>{{ rateCtrl.result.price }}</strong>
         </div>
       </form>
