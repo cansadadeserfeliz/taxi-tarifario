@@ -1,0 +1,15 @@
+[
+  {
+    "id": 1,
+    "name": "Bogota",
+    "price_per_unit": 72,
+    "price_beach": 17000,
+    "country_id": 1
+  }, {
+    "id": 2,
+    "name": "Moscow",
+    "price_per_unit": 4,
+    "price_beach": 2500,
+    "country_id": 2
+  }
+]
