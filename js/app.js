@@ -8,14 +8,15 @@
     };
     rateCtrl.neighborhoods = []
     
-    //$http.get('locations.json').success(function(data){
-    //  rateCtrl.neighborhoods = data;
-    //});
+    $http.get('locations.json').success(function(data){
+      rateCtrl.neighborhoods = data;
+    });
     
     rateCtrl.beach = {
       "id": 0,
       "name": "Playa",
     }
+    /*
     rateCtrl.neighborhoods = [
       {
         "id": 1,
@@ -51,6 +52,7 @@
         "city_id": 2
       }
     ];
+    */
     
     rateCtrl.cities = [
       {
