@@ -3,12 +3,14 @@
     "id": 1,
     "name": "Bogota",
     "price_per_unit": 72,
+    "price_at_night": 1700,
     "price_beach": 17000,
     "country_id": 1
   }, {
     "id": 2,
     "name": "Moscow",
     "price_per_unit": 4,
+    "price_at_night": 100,
     "price_beach": 2500,
     "country_id": 2
   }

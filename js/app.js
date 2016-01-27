@@ -40,14 +40,16 @@
       if (form.$invalid) {
         return;
       }
-      var price = 0;
       rateCtrl.result = {
-        towards_beach: false,
         price: 0,
+        price_at_night: 0,
+        price_per_unit: 0,
+        towards_beach: false,
         has_route: true,
-        no_route_message: 'No hay ruta encontrada.'
+        no_route_message: 'No hay ruta encontrada'
       };
       
+      // Check if form is valid
       if (rateCtrl.destination == rateCtrl.beach.id) {
         rateCtrl.result.towards_beach = true;
       }
@@ -79,7 +81,7 @@
         ].join(', ');
         
         // Check if origin city and destination city are equal
-        if (origin_neighborhood.city_id != destination_neighborhood.city_id) {
+        if (origin_city.id != destination_city.id) {
           rateCtrl.result.has_route = false;
           rateCtrl.result.no_route_message = 'No se puede tomar taxi entre ciudades diferentes'
         } else {
@@ -92,18 +94,18 @@
           } else {
             rateCtrl.result.has_route = false;
           }
-          price = origin_city.price_per_unit * units;
-          rateCtrl.price_per_unit = origin_city.price_per_unit;
+          rateCtrl.result.price = origin_city.price_per_unit * units;
+          rateCtrl.result.price_at_night = rateCtrl.result.price + origin_city.price_at_night;
+          rateCtrl.result.price_per_unit = origin_city.price_per_unit;
         }
       } else {
         // Get price to the beach
         var destination_name = rateCtrl.beach.name;
-        price = origin_city.price_beach;
+        rateCtrl.result.price = origin_city.price_beach;
       }
       
       rateCtrl.result.origin = origin_name;
-      rateCtrl.result.destination = destination_name;
-      rateCtrl.result.price = price;
+      rateCtrl.result.destination = destination_name;;
       rateCtrl.result.currency = origin_country.currency;
     };
     

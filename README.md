@@ -19,23 +19,31 @@ Tarea: implementar un tarifario que calcula el precio de un servicio de taxi/veh
 
 Estructura de datos:
 
-    // barrio
+    // neighborhood (barrio)
+    {
+      "id": "...",
+      "name": "...",
+      "area_id": "..."
+    }
+    
+    // area (localidad)
     {
       "id": "...",
       "name": "...",
       "city_id": "..."
     }
     
-    // ciudad
+    // city (ciudad)
     {
       "id": "...",
       "name": "...",
       "price_per_unit": "...",  // precio por unidad
+      "price_at_night": "...",  // tarifa noturna
       "price_beach": "...",  // precio hasta la playa desde cualquer barrio
       "country_id": "..."
     }
     
-    // pais
+    // country (pais)
     {
       "id": "...",
       "name": "...",

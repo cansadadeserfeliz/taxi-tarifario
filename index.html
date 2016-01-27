@@ -60,9 +60,12 @@
         <div class="alert alert-success" role="alert" ng-show="rateForm.$valid && rateCtrl.result.has_route">
           Precio desde <strong>{{ rateCtrl.result.origin }}</strong>
           hasta <strong>{{ rateCtrl.result.destination }}</strong>
-          es <strong>{{ rateCtrl.result.price }} {{ rateCtrl.result.currency }}</strong>.
-          <span ng-show="rateCtrl.price_per_unit">
-            Precio por unidad: {{ rateCtrl.price_per_unit }} {{ rateCtrl.result.currency }}
+          es <strong>{{ rateCtrl.result.price }} {{ rateCtrl.result.currency }}</strong>
+          <span ng-hide="rateCtrl.result.towards_beach">
+            y {{ rateCtrl.result.price_at_night }} {{ rateCtrl.result.currency }} por la noche
+          </span>.
+          <span ng-show="rateCtrl.result.price_per_unit">
+            Precio por unidad: {{ rateCtrl.result.price_per_unit }} {{ rateCtrl.result.currency }}.
           </span>
         </div>
         <div class="alert alert-danger" role="alert" ng-hide="rateForm.$invalid || rateCtrl.result.has_route">
