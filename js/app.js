@@ -8,7 +8,7 @@
     };
     rateCtrl.neighborhoods = []
     
-    /*
+    
     $http.get('data/neighborhoods.json').success(function(data){
       rateCtrl.neighborhoods = data;
     });
@@ -18,84 +18,14 @@
     $http.get('data/countries.json').success(function(data){
       rateCtrl.countries = data;
     });
-    */
+    $http.get('data/rates.json').success(function(data){
+      rateCtrl.rates = data;
+    });
     
     rateCtrl.beach = {
       "id": 0,
       "name": "Playa",
     }
-    rateCtrl.neighborhoods = [
-      {
-        "id": 1,
-        "name": "Barrancas",
-        "city_id": 1
-      }, {
-        "id": 2,
-        "name": "Chico",
-        "city_id": 1
-      }, {
-        "id": 3,
-        "name": "San Cristobal",
-        "city_id": 1
-      }, {
-        "id": 4,
-        "name": "Mandalay",
-        "city_id": 1
-      }, {
-        "id": 5,
-        "name": "Kennedy",
-        "city_id": 1
-      }, {
-        "id": 6,
-        "name": "Butovo",
-        "city_id": 2
-      }, {
-        "id": 7,
-        "name": "Sokolniki",
-        "city_id": 2
-      }, {
-        "id": 8,
-        "name": "Konkovo",
-        "city_id": 2
-      }
-    ];
-    
-    rateCtrl.cities = [
-      {
-        "id": 1,
-        "name": "Bogota",
-        "price_per_unit": 72,
-        "price_beach": 17000,
-        "country_id": 1
-      }, {
-        "id": 2,
-        "name": "Moscow",
-        "price_per_unit": 4,
-        "price_beach": 2500,
-        "country_id": 2
-      }
-    ];
-    
-    rateCtrl.countries = [
-      {
-        "id": 1,
-        "name": "Colombia",
-        "currency": "COP"
-      }, {
-        "id": 2,
-        "name": "Russia",
-        "currency": "RUB"
-      }
-    ];
-    
-    rateCtrl.rates = {
-      1: {2: 230, 3: 12, 4: 400, 5: 380},
-      2: {3: 170, 4: 150, 5: 140},
-      3: {4: 360, 5: 170},
-      4: {5: 12},
-      6: {7: 230, 8: 120},
-      7: {8: 175}
-    };
     
     this.getNeighborhood = function(id) {
       return _.find(
@@ -119,7 +49,6 @@
     };
         
     this.getPrice = function(form) {
-      console.log(form);
       if (form.$invalid) {
         return;
       }
